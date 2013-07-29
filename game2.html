@@ -1,0 +1,103 @@
+<html>
+	<head>
+		<title>Index</title>
+
+	</head>
+	<body>
+
+		<button id="action" >Roll</button>
+		<hr>
+		<button id="menos" >-</button>
+		<div id="numeroate">			2		</div>
+		<button id="mais" >+</button>
+
+		<div id="resultado">
+			...
+		</div>
+		<hr>
+		<div id="results">
+			...
+		</div>
+		<hr>
+		<div id="porcentagem">
+			...
+		</div>
+		<script type="text/javascript">
+
+			var MINIMOATE = 2,
+				inicialAte = 2,
+			    resultados = [],
+			    randomMaker = function(min, max) {
+					return Math.random() * (max - min) + min;
+			    },
+			    calcNumberGames = function(){
+					var numeros = [], dois = 0, jogadas = resultados.length;
+					for (var i = jogadas - 1; i >= 0; i--) {
+						if (resultados[i] == 1){
+							um++;
+						}else{
+							dois++;
+						}
+					}
+				},
+				calcPercentage = function(number, times){
+					var result = Math.round(number / times * 100);
+					return result;
+				},
+				atualizaAte = function(){
+						document.getElementById("numeroate").innerHTML = inicialAte;					
+				},
+				putValue = function(){
+					var result = Math.round(randomMaker(1,inicialAte));
+						resultados.push(result);
+						document.getElementById("resultado").innerHTML = result;
+						document.getElementById("results").innerHTML = resultados.join();
+				},
+				isInArray = function(_element, arr){
+					var result = false;
+					var index = arr.indexOf(_element);
+					if(index > -1){
+						result = true;
+					}
+					return result;
+				};
+				
+				// mensagem = "Porcentagens: <br> Jogadas{" + jogadas + 
+				// 				"} <br> Uns{" + um + " - " + calcPercentage(um, jogadas) + "%" +
+				// 				"} <br> Dois{" + dois + " - " + calcPercentage(dois, jogadas) + "%" + "} ";
+				// document.getElementById("porcentagem").innerHTML = mensagem;
+
+			document.getElementById("menos").addEventListener("click", function( event ) {
+				if(inicialAte > MINIMOATE){
+					inicialAte--;
+					atualizaAte();
+				}
+			}, false);
+
+			document.getElementById("mais").addEventListener("click", function( event ) {
+				inicialAte++;
+				atualizaAte();
+			}, false);
+
+
+			document.getElementById("action").addEventListener("click", function( event ) {
+				putValue();
+				calcNumberGames();
+			}, false);
+
+
+			// var arrayx = [2, 5, 9];
+
+			// // var index = array.indexOf(2); 
+			// console.info(isInArray(2, arrayx));
+
+			// var indices = [];
+			// var idx = array.indexOf(element);
+			// while (idx != -1) {
+			//     indices.push(idx);
+			//     idx = array.indexOf(element, idx + 1);
+			// }
+
+		</script>
+	</body>
+</html>

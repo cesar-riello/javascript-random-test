@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<title>Index</title>
+
+	</head>
+	<body>
+
+		<button id="action" >Roll</button>
+		<div id="resultado">
+			...
+		</div>
+		<hr>
+		<div id="results">
+			...
+		</div>
+		<hr>
+		<div id="porcentagem">
+			...
+		</div>
+		<script type="text/javascript">
+			var resultados = [];
+			var randomMaker = function(min, max) {
+					return Math.random() * (max - min) + min;
+			}
+
+			var calcNumberGames = function(){
+				var um = 0, dois = 0, jogadas = resultados.length;
+				for (var i = jogadas - 1; i >= 0; i--) {
+					if (resultados[i] == 1){
+						um++;
+					}else{
+						dois++;
+					}
+				};
+				var mensagem = "Porcentagens: <br> Jogadas{" + jogadas + 
+								"} <br> Uns{" + um + " - " + calcPercentage(um, jogadas) + "%" +
+								"} <br> Dois{" + dois + " - " + calcPercentage(dois, jogadas) + "%" + "} ";
+				document.getElementById("porcentagem").innerHTML = mensagem;
+
+			}			
+
+			var calcPercentage = function(number, times){
+				var result = Math.round(number / times * 100);
+				return result;
+			}			
+
+			var putValue = function(){
+				var result = Math.round(randomMaker(1,2));
+					resultados.push(result);
+					document.getElementById("resultado").innerHTML = result;
+					document.getElementById("results").innerHTML = resultados.join();
+			}
+
+			document.getElementById("action").addEventListener("click", function( event ) {
+				putValue();
+				calcNumberGames();
+			}, false);
+
+
+
+
+			// var array = [2, 5, 9];
+			// var index = array.indexOf(2); 
+			// console.info(index);
+
+			// var indices = [];
+			// var idx = array.indexOf(element);
+			// while (idx != -1) {
+			//     indices.push(idx);
+			//     idx = array.indexOf(element, idx + 1);
+			}
+
+		</script>
+	</body>
+</html>
