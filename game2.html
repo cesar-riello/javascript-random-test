@@ -31,14 +31,22 @@
 					return Math.random() * (max - min) + min;
 			    },
 			    calcNumberGames = function(){
-					var numeros = [], dois = 0, jogadas = resultados.length;
-					for (var i = jogadas - 1; i >= 0; i--) {
-						if (resultados[i] == 1){
-							um++;
-						}else{
-							dois++;
-						}
-					}
+					var numeros = getOnlyResults(resultados);
+					numeros.sort();
+					jogadas = resultados.length;
+					// times = [];
+					// percentages = [];
+
+					var mensagem = "Porcentagens: <br> Jogadas{" + jogadas + "}";
+					for (var i = 0; i < numeros.length; i++) {
+						var times = getNumberOfTimes(resultados, numeros[i]);
+							console.info(times);
+						var percentage = calcPercentage(times, jogadas);
+							console.info(times);
+						mensagem += " <br> " + numeros[i] + "{" + times + " - " + percentage + "%}";
+					}							
+				document.getElementById("porcentagem").innerHTML = mensagem;
+
 				},
 				calcPercentage = function(number, times){
 					var result = Math.round(number / times * 100);
@@ -53,6 +61,31 @@
 						document.getElementById("resultado").innerHTML = result;
 						document.getElementById("results").innerHTML = resultados.join();
 				},
+				resetAll = function(){
+					document.getElementById("results").innerHTML = "...";
+					document.getElementById("resultado").innerHTML = "...";
+					document.getElementById("porcentagem").innerHTML = "...";
+					resultados = [];
+				},				
+				getOnlyResults = function(values){
+					var indexs = []
+					for (var i = values.length - 1; i >= 0; i--) {
+						if(indexs.indexOf(values[i]) == -1){
+
+							indexs.push(values[i]);
+						}
+					};
+					return indexs;
+				},				
+				getNumberOfTimes = function(list, value){
+					var counter = 0;
+					for (var i = list.length - 1; i >= 0; i--) {
+						if(list[i] == value){
+							counter++;
+						}
+					};
+					return counter;
+				},				
 				isInArray = function(_element, arr){
 					var result = false;
 					var index = arr.indexOf(_element);
@@ -72,11 +105,13 @@
 					inicialAte--;
 					atualizaAte();
 				}
+				resetAll();
 			}, false);
 
 			document.getElementById("mais").addEventListener("click", function( event ) {
 				inicialAte++;
 				atualizaAte();
+				resetAll();
 			}, false);
 
 
@@ -98,6 +133,10 @@
 			//     idx = array.indexOf(element, idx + 1);
 			// }
 
+
+			// var mylist = [1, 2, 3,1, 2, 3,4, 4, 4];
+			// var mynewlist = getindexs(mylist);
+			// console.info(mynewlist);
 		</script>
 	</body>
 </html>
