@@ -1,0 +1,163 @@
+<html>
+	<head>
+		<title>Game 3 colors</title>
+
+	</head>
+	<body>
+		<button id="action1" >geracor</button>
+		<button id="action" >Roll</button>
+		<hr>
+		<button id="menos" >-</button>
+		<div id="numeroate">			2		</div>
+		<button id="mais" >+</button>
+
+		<div id="resultado">
+			...
+		</div>
+		<hr>
+		<div id="results">
+			...
+		</div>
+		<hr>
+		<div id="porcentagem">
+			...
+		</div>
+		<script type="text/javascript">
+
+			var MINIMOATE = 2,
+				inicialAte = 2,
+			    resultados = [],
+			    hexCaracters = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'],
+			    randomMaker = function(min, max) {
+					return Math.random() * (max - min) + min;
+			    },
+			    randomHex = function() {
+			    	var randomHexNumber = Math.round(randomMaker(0,16));
+			    	var randomHexCaracters = hexCaracters[randomHexNumber];
+			    	return randomHexCaracters;
+			    },
+			    createBoxColor = function(color) {
+			    	var boxHtml = "<div style=' background-color: " + color + "; height: 20px; width: 30px; padding:10px;'> {0} </div>";
+			    	return boxHtml;
+			    },			    
+			    randomColor = function() {
+			    	var result = "#";
+			    	result += callFunctionWhichReturnNumberTimes('randomHex', 6);
+					return result;
+			    },
+			    callFunctionWhichReturnNumberTimes = function(functionName, times) {
+			    	var result = "";
+			    	var realFunction = eval(functionName);
+			    	for (var i = 0; i < times; i++) {
+						result += realFunction();
+					};
+					return result;
+			    },
+			    calcNumberGames = function(){
+					var numeros = getOnlyResults(resultados);
+					numeros.sort();
+					jogadas = resultados.length;
+
+					var mensagem = "Porcentagens: <br> Jogadas{" + jogadas + "}";
+					for (var i = 0; i < numeros.length; i++) {
+						var times = getNumberOfTimes(resultados, numeros[i]);
+							console.info(times);
+						var percentage = calcPercentage(times, jogadas);
+							console.info(times);
+						mensagem += " <br> " + numeros[i] + "{" + times + " - " + percentage + "%}";
+					}
+
+					document.getElementById("porcentagem").innerHTML = mensagem;
+				},
+				calcPercentage = function(number, times){
+					var result = Math.round(number / times * 100);
+					return result;
+				},
+				atualizaAte = function(){
+						document.getElementById("numeroate").innerHTML = inicialAte;					
+				},
+				putValue = function(){
+					var result = Math.round(randomMaker(1,inicialAte));
+						resultados.push(result);
+						document.getElementById("resultado").innerHTML = result;
+						document.getElementById("results").innerHTML = resultados.join();
+				},
+				resetAll = function(){
+					document.getElementById("results").innerHTML = "...";
+					document.getElementById("resultado").innerHTML = "...";
+					document.getElementById("porcentagem").innerHTML = "...";
+					resultados = [];
+				},				
+				getOnlyResults = function(values){
+					var indexs = []
+					for (var i = values.length - 1; i >= 0; i--) {
+						if(indexs.indexOf(values[i]) == -1){
+
+							indexs.push(values[i]);
+						}
+					};
+					return indexs;
+				},				
+				getNumberOfTimes = function(list, value){
+					var counter = 0;
+					for (var i = list.length - 1; i >= 0; i--) {
+						if(list[i] == value){
+							counter++;
+						}
+					};
+					return counter;
+				},				
+				isInArray = function(_element, arr){
+					var result = false;
+					var index = arr.indexOf(_element);
+					if(index > -1){
+						result = true;
+					}
+					return result;
+				};
+
+			document.getElementById("menos").addEventListener("click", function( event ) {
+				if(inicialAte > MINIMOATE){
+					inicialAte--;
+					atualizaAte();
+				}
+				resetAll();
+			}, false);
+
+			document.getElementById("mais").addEventListener("click", function( event ) {
+				inicialAte++;
+				atualizaAte();
+				resetAll();
+			}, false);
+
+
+			document.getElementById("action").addEventListener("click", function( event ) {
+				putValue();
+				calcNumberGames();
+			}, false);
+
+			document.getElementById("action1").addEventListener("click", function( event ) {
+				console.log(randomColor());
+				document.getElementById("porcentagem").innerHTML = createBoxColor(randomColor());
+			}, false);			
+
+
+			// var arrayx = [2, 5, 9];
+
+			// // var index = array.indexOf(2); 
+			// console.info(isInArray(2, arrayx));
+
+			// var indices = [];
+			// var idx = array.indexOf(element);
+			// while (idx != -1) {
+			//     indices.push(idx);
+			//     idx = array.indexOf(element, idx + 1);
+			// }
+
+
+			// var mylist = [1, 2, 3,1, 2, 3,4, 4, 4];
+			// var mynewlist = getindexs(mylist);
+			// console.info(mynewlist);
+		</script>
+	</body>
+</html>
